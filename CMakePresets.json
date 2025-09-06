@@ -1,0 +1,54 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 19,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "displayName": "Base settings (hidden)",
+      "description": "Common settings for configure presets (generator, default output directories)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/${presetName}"
+    },
+    {
+      "name": "debug-aarch64",
+      "inherits": "base",
+      "displayName": "Debug (aarch64)",
+      "description": "Configure a Debug build targeting aarch64 / arm64",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_SYSTEM_PROCESSOR": "aarch64",
+        "CMAKE_OSX_ARCHITECTURES": "arm64"
+      }
+    },
+    {
+      "name": "release-aarch64",
+      "inherits": "base",
+      "displayName": "Release (aarch64)",
+      "description": "Configure a Release build targeting aarch64 / arm64",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_SYSTEM_PROCESSOR": "aarch64",
+        "CMAKE_OSX_ARCHITECTURES": "arm64"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "build-debug-aarch64",
+      "displayName": "Build Debug (aarch64)",
+      "configurePreset": "debug-aarch64",
+      "description": "Configure (if needed) and build the Debug aarch64 preset"
+    },
+    {
+      "name": "build-release-aarch64",
+      "displayName": "Build Release (aarch64)",
+      "configurePreset": "release-aarch64",
+      "description": "Configure (if needed) and build the Release aarch64 preset"
+    }
+  ]
+}
