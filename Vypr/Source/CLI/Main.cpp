@@ -9,10 +9,16 @@
 #include "Vypr/AST/Type/IntegralType.hpp"
 #include "Vypr/CodeGen/Context.hpp"
 #include "Vypr/Lexer/CLangLexer.hpp"
-#include "Vypr/Scanner/StringScanner.hpp"
+#include "Vypr/Scanner/FileScanner.hpp"
 
-int main(int, char **)
+int main(int argc, char **argv)
 {
+  if (argc < 2)
+  {
+    std::cerr << "Usage: vypr [test_file.c]" << std::endl;
+    return 1;
+  }
+
   auto context = std::make_unique<Vypr::Context>("module");
 
   llvm::InitializeAllTargets();
@@ -20,7 +26,8 @@ int main(int, char **)
   llvm::InitializeAllAsmParsers();
   llvm::InitializeAllAsmPrinters();
 
-  Vypr::CLangLexer lexer(std::make_unique<Vypr::StringScanner>(L"(void)var"));
+  auto filename = std::wstring(argv[1], argv[1] + std::strlen(argv[1]));
+  Vypr::CLangLexer lexer(std::make_unique<Vypr::FileScanner>(filename));
 
   try
   {
@@ -30,6 +37,11 @@ int main(int, char **)
                                                      false, true));
 
     auto expression = Vypr::ExpressionNode::Parse(lexer, astContext);
+    if (expression == nullptr)
+    {
+      std::wcerr << L"Failed to parse expression." << std::endl;
+      return 1;
+    }
     std::wcout << expression->PrettyPrint(0) << std::endl;
 
     // Temp

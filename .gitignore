@@ -364,3 +364,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 .vscode
+
+out/
+*.o

@@ -20,6 +20,7 @@ set(LIBVYPR_SOURCE
   "Source/Lexer/CLangTypePrefixes.cpp"
   "Source/Scanner/Scanner.cpp"
   "Source/Scanner/StringScanner.cpp"
+  "Source/Scanner/FileScanner.cpp"
 )
 
 set(LIBVYPR_HEADER
@@ -46,6 +47,7 @@ set(LIBVYPR_HEADER
   "Include/Vypr/Lexer/CLangTokenType.hpp"
   "Include/Vypr/Scanner/Scanner.hpp"
   "Include/Vypr/Scanner/StringScanner.hpp"
+  "Include/Vypr/Scanner/FileScanner.hpp"
   "Include/Vypr/Util/Overload.hpp"
 )
 

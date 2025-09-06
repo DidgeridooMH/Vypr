@@ -47,7 +47,7 @@ namespace Vypr
     return buffer;
   }
 
-  std::wstring Scanner::LookAhead(int step, int length) const
+  std::wstring Scanner::LookAhead(int step, int length)
   {
     std::wstring buffer;
     for (int i = 0; i < length; i++)

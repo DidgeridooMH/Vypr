@@ -58,14 +58,14 @@ namespace Vypr
     /// @returns String of the front `length` characters. The resulting string
     /// can have less than `length` characters if the source does not have that
     /// many.
-    std::wstring LookAhead(int offset, int length) const;
+    std::wstring LookAhead(int offset, int length);
 
     /// @brief Peeks the next character from the scanner source or `EOF` if
     /// the source is empty.
     ///
     /// @param offsetNumber of characters to skip when looking ahead.
     /// @returns `offset`th character in the scanner source.
-    virtual wchar_t LookAhead(int offset) const = 0;
+    virtual wchar_t LookAhead(int offset) = 0;
 
     /// @returns Whether more characters are available from the scanner source.
     virtual bool Finished() = 0;

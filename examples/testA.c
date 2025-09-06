@@ -1,4 +1,6 @@
-struct Alpha
+(var + var)
+
+    struct Alpha
 {
   int b;
   int c;

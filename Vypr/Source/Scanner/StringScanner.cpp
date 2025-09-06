@@ -12,7 +12,7 @@ namespace Vypr
     return m_buffer[m_index++];
   }
 
-  wchar_t StringScanner::LookAhead(int stepSize) const
+  wchar_t StringScanner::LookAhead(int stepSize)
   {
     if (m_index + stepSize >= m_buffer.size())
     {

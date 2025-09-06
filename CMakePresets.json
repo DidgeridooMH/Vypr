@@ -12,7 +12,11 @@
       "displayName": "Base settings (hidden)",
       "description": "Common settings for configure presets (generator, default output directories)",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/out/${presetName}"
+      "binaryDir": "${sourceDir}/out/${presetName}",
+      "cacheVariables": {
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+        "ENABLE_COVERAGE": "FALSE"
+      }
     },
     {
       "name": "debug-aarch64",

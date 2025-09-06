@@ -18,7 +18,7 @@ namespace Vypr
     ///
     /// @param offsetNumber of characters to skip when looking ahead.
     /// @returns `offset`th character in the scanner source.
-    wchar_t LookAhead(int offset) const override;
+    wchar_t LookAhead(int offset) override;
 
     /// @returns Whether more characters are available from the scanner source.
     bool Finished() override;
