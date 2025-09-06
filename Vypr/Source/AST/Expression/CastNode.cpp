@@ -24,9 +24,10 @@ namespace Vypr
   }
 
   std::unique_ptr<CastNode> CastNode::Parse(CLangLexer &lexer,
-                                                  const ASTContext &context)
+                                            const ASTContext &context)
   {
-    // @todo: Parse type outside of this function. It will be useful later in declarations.
+    // @todo: Parse type outside of this function. It will be useful later in
+    // declarations.
     std::unique_ptr<StorageType> castType = nullptr;
     auto token = lexer.GetToken();
     if (token.type == CLangTokenType::Void)
@@ -35,20 +36,21 @@ namespace Vypr
     }
     else
     {
-      throw CompileError(CompileErrorId::UnimplementedFeature,
-          token.line, token.column, token.content);
+      throw CompileError(CompileErrorId::UnimplementedFeature, token.line,
+                         token.column, token.content);
     }
 
     token = lexer.GetToken();
     if (token.type != CLangTokenType::RightParenthesis)
     {
       throw CompileError(CompileErrorId::ExpectedGroupEnd, token.line,
-          token.column, token.content);
+                         token.column, token.content);
     }
 
     auto innerExpression = ExpressionNode::Parse(lexer, context);
 
-    return std::make_unique<CastNode>(std::move(castType), std::move(innerExpression));
+    return std::make_unique<CastNode>(std::move(castType),
+                                      std::move(innerExpression));
   }
 
   llvm::Value *CastNode::GenerateCode(Context &context) const
