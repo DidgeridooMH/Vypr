@@ -20,6 +20,7 @@ message("Setting compiler architecture to ${TARGET_ARCH}")
 find_package(LLVM REQUIRED CONFIG)
 
 add_definitions(${LLVM_DEFINITIONS})
+add_compile_options(-Wno-deprecated)
 
 llvm_map_components_to_libnames(LLVM_LIBS ${LLVM_TARGETS_TO_BUILD})
 

@@ -34,9 +34,9 @@ namespace CastNodeTest
   {
     Vypr::CLangLexer lexer(
         std::make_unique<Vypr::StringScanner>(L"(char) 'c'"));
-    Vypr::TypeTable typeTable;
+    Vypr::ASTContext context;
 
-    auto cast = Vypr::ExpressionNode::Parse(lexer, typeTable);
+    auto cast = Vypr::ExpressionNode::Parse(lexer, context);
 
     ASSERT_EQ(lexer.PeekToken().type, Vypr::CLangTokenType::NoToken);
     ASSERT_NE(cast, nullptr);
