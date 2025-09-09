@@ -8,6 +8,7 @@
 #include "Vypr/AST/Expression/PostfixOp.hpp"
 #include "Vypr/AST/Expression/UnaryOp.hpp"
 #include "Vypr/CodeGen/Context.hpp"
+#include "Vypr/Lexer/CLangLexer.hpp"
 
 namespace Vypr
 {
@@ -20,6 +21,19 @@ namespace Vypr
     Real,
     Pointer,
     Array
+  };
+
+  struct TypeQualifiers
+  {
+    TypeQualifiers(bool isConst = false, bool isVolatile = false,
+                   bool isRegister = false, bool isRestrict = false)
+        : isConst(isConst), isVolatile(isVolatile), isRegister(isRegister),
+          isRestrict(isRestrict) {};
+
+    bool isConst;
+    bool isVolatile;
+    bool isRegister;
+    bool isRestrict;
   };
 
   /// @brief AST type that represents the type of a temporary value or a value
@@ -43,7 +57,7 @@ namespace Vypr
     /// @param isConst Whether the type is mutable or not.
     /// @param isLValue Whether the type describes a location in memory that can
     /// be modified.
-    StorageType(StorageMetaType type, bool isConst, bool isLValue);
+    StorageType(StorageMetaType type, TypeQualifiers qualifiers, bool isLValue);
 
     /// @brief Creates a copy of the type.
     /// @return A deep copy of the `StorageType`.
@@ -81,8 +95,10 @@ namespace Vypr
     /// @return The meta type of the type stored.
     StorageMetaType GetType() const;
 
-    /// @brief Whether the current value is modifiable.
-    bool isConst;
+    static std::unique_ptr<StorageType> Parse(CLangLexer &lexer);
+
+    // @brief Qualifiers that modify the base type.
+    TypeQualifiers qualifiers;
 
     /// @brief Whether the current value points to a place in memory that is
     /// storable.

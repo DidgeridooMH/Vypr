@@ -13,7 +13,7 @@ namespace PointerTypeTest
     auto storage = std::make_unique<Vypr::StorageType>();
     auto type = std::make_unique<Vypr::PointerType>(storage, false, false);
 
-    ASSERT_FALSE(type->isConst);
+    ASSERT_FALSE(type->qualifiers.isConst);
     ASSERT_FALSE(type->isLValue);
     ASSERT_EQ(type->GetType(), Vypr::StorageMetaType::Pointer);
   }
@@ -23,7 +23,7 @@ namespace PointerTypeTest
     auto storage = std::make_unique<Vypr::StorageType>();
     auto type = std::make_unique<Vypr::PointerType>(storage, true, false);
 
-    ASSERT_TRUE(type->isConst);
+    ASSERT_TRUE(type->qualifiers.isConst);
     ASSERT_FALSE(type->isLValue);
     ASSERT_EQ(type->GetType(), Vypr::StorageMetaType::Pointer);
   }
@@ -33,7 +33,7 @@ namespace PointerTypeTest
     auto storage = std::make_unique<Vypr::StorageType>();
     auto type = std::make_unique<Vypr::PointerType>(storage, false, true);
 
-    ASSERT_FALSE(type->isConst);
+    ASSERT_FALSE(type->qualifiers.isConst);
     ASSERT_TRUE(type->isLValue);
     ASSERT_EQ(type->GetType(), Vypr::StorageMetaType::Pointer);
   }
@@ -43,7 +43,7 @@ namespace PointerTypeTest
     auto storage = std::make_unique<Vypr::StorageType>();
     auto type = std::make_unique<Vypr::PointerType>(storage, true, true);
 
-    ASSERT_TRUE(type->isConst);
+    ASSERT_TRUE(type->qualifiers.isConst);
     ASSERT_TRUE(type->isLValue);
     ASSERT_EQ(type->GetType(), Vypr::StorageMetaType::Pointer);
   }
@@ -56,7 +56,7 @@ namespace PointerTypeTest
     std::unique_ptr<Vypr::StorageType> other = type->Clone();
 
     ASSERT_NE(type.get(), other.get());
-    ASSERT_EQ(type->isConst, other->isConst);
+    ASSERT_EQ(type->qualifiers.isConst, other->qualifiers.isConst);
     ASSERT_FALSE(other->isLValue);
   }
 
@@ -69,7 +69,7 @@ namespace PointerTypeTest
         type->Check(Vypr::PostfixOp::Increment);
 
     ASSERT_EQ(other->GetType(), Vypr::StorageMetaType::Pointer);
-    ASSERT_FALSE(other->isConst);
+    ASSERT_FALSE(other->qualifiers.isConst);
     ASSERT_FALSE(other->isLValue);
   }
 
@@ -82,7 +82,7 @@ namespace PointerTypeTest
         type->Check(Vypr::PostfixOp::Decrement);
 
     ASSERT_EQ(other->GetType(), Vypr::StorageMetaType::Pointer);
-    ASSERT_FALSE(other->isConst);
+    ASSERT_FALSE(other->qualifiers.isConst);
     ASSERT_FALSE(other->isLValue);
   }
 
@@ -95,7 +95,7 @@ namespace PointerTypeTest
         type->Check(Vypr::UnaryOp::Increment);
 
     ASSERT_EQ(other->GetType(), Vypr::StorageMetaType::Pointer);
-    ASSERT_FALSE(other->isConst);
+    ASSERT_FALSE(other->qualifiers.isConst);
     ASSERT_FALSE(other->isLValue);
   }
 
@@ -108,7 +108,7 @@ namespace PointerTypeTest
         type->Check(Vypr::UnaryOp::Decrement);
 
     ASSERT_EQ(other->GetType(), Vypr::StorageMetaType::Pointer);
-    ASSERT_FALSE(other->isConst);
+    ASSERT_FALSE(other->qualifiers.isConst);
     ASSERT_FALSE(other->isLValue);
   }
 
@@ -135,7 +135,7 @@ namespace PointerTypeTest
         type->Check(Vypr::UnaryOp::LogicalNot);
 
     ASSERT_EQ(other->GetType(), Vypr::StorageMetaType::Integral);
-    ASSERT_FALSE(other->isConst);
+    ASSERT_FALSE(other->qualifiers.isConst);
     ASSERT_FALSE(other->isLValue);
     ASSERT_EQ(dynamic_cast<Vypr::IntegralType *>(other.get())->integral,
               Vypr::Integral::Bool);
@@ -165,7 +165,7 @@ namespace PointerTypeTest
     ASSERT_EQ(other->GetType(), Vypr::StorageMetaType::Integral);
     ASSERT_EQ(dynamic_cast<Vypr::IntegralType *>(other.get())->integral,
               Vypr::Integral::Int);
-    ASSERT_FALSE(other->isConst);
+    ASSERT_FALSE(other->qualifiers.isConst);
     ASSERT_TRUE(other->isLValue);
   }
 
@@ -178,7 +178,7 @@ namespace PointerTypeTest
         type->Check(Vypr::UnaryOp::AddressOf);
 
     ASSERT_EQ(other->GetType(), Vypr::StorageMetaType::Pointer);
-    ASSERT_FALSE(other->isConst);
+    ASSERT_FALSE(other->qualifiers.isConst);
     ASSERT_FALSE(other->isLValue);
   }
 
@@ -193,7 +193,7 @@ namespace PointerTypeTest
     ASSERT_EQ(other->GetType(), Vypr::StorageMetaType::Integral);
     ASSERT_EQ(dynamic_cast<Vypr::IntegralType *>(other.get())->integral,
               Vypr::Integral::Long);
-    ASSERT_FALSE(other->isConst);
+    ASSERT_FALSE(other->qualifiers.isConst);
     ASSERT_FALSE(other->isLValue);
   }
 
@@ -282,7 +282,7 @@ namespace PointerTypeTest
     auto result = type->Check(Vypr::BinaryOp::Add, *other);
 
     ASSERT_EQ(result->GetType(), Vypr::StorageMetaType::Pointer);
-    ASSERT_FALSE(result->isConst);
+    ASSERT_FALSE(result->qualifiers.isConst);
     ASSERT_FALSE(result->isLValue);
   }
 
@@ -296,7 +296,7 @@ namespace PointerTypeTest
     auto result = type->Check(Vypr::BinaryOp::Add, *other);
 
     ASSERT_EQ(result->GetType(), Vypr::StorageMetaType::Pointer);
-    ASSERT_FALSE(result->isConst);
+    ASSERT_FALSE(result->qualifiers.isConst);
     ASSERT_FALSE(result->isLValue);
   }
 
@@ -312,7 +312,7 @@ namespace PointerTypeTest
     ASSERT_EQ(result->GetType(), Vypr::StorageMetaType::Integral);
     ASSERT_EQ(dynamic_cast<Vypr::IntegralType *>(result.get())->integral,
               Vypr::Integral::Long);
-    ASSERT_FALSE(result->isConst);
+    ASSERT_FALSE(result->qualifiers.isConst);
     ASSERT_FALSE(result->isLValue);
   }
 
@@ -328,7 +328,7 @@ namespace PointerTypeTest
     ASSERT_EQ(result->GetType(), Vypr::StorageMetaType::Integral);
     ASSERT_EQ(dynamic_cast<Vypr::IntegralType *>(result.get())->integral,
               Vypr::Integral::Long);
-    ASSERT_FALSE(result->isConst);
+    ASSERT_FALSE(result->qualifiers.isConst);
     ASSERT_FALSE(result->isLValue);
   }
 
@@ -346,7 +346,7 @@ namespace PointerTypeTest
     ASSERT_EQ(result->GetType(), Vypr::StorageMetaType::Integral);             \
     ASSERT_EQ(dynamic_cast<Vypr::IntegralType *>(result.get())->integral,      \
               Vypr::Integral::Bool);                                           \
-    ASSERT_FALSE(result->isConst);                                             \
+    ASSERT_FALSE(result->qualifiers.isConst);                                  \
     ASSERT_FALSE(result->isLValue);                                            \
   }
 
@@ -363,7 +363,7 @@ namespace PointerTypeTest
     ASSERT_EQ(result->GetType(), Vypr::StorageMetaType::Integral);             \
     ASSERT_EQ(dynamic_cast<Vypr::IntegralType *>(result.get())->integral,      \
               Vypr::Integral::Bool);                                           \
-    ASSERT_FALSE(result->isConst);                                             \
+    ASSERT_FALSE(result->qualifiers.isConst);                                  \
     ASSERT_FALSE(result->isLValue);                                            \
   }
 
@@ -380,7 +380,7 @@ namespace PointerTypeTest
     ASSERT_EQ(result->GetType(), Vypr::StorageMetaType::Integral);             \
     ASSERT_EQ(dynamic_cast<Vypr::IntegralType *>(result.get())->integral,      \
               Vypr::Integral::Bool);                                           \
-    ASSERT_FALSE(result->isConst);                                             \
+    ASSERT_FALSE(result->qualifiers.isConst);                                  \
     ASSERT_FALSE(result->isLValue);                                            \
   }
 
@@ -398,7 +398,7 @@ namespace PointerTypeTest
     ASSERT_EQ(result->GetType(), Vypr::StorageMetaType::Integral);             \
     ASSERT_EQ(dynamic_cast<Vypr::IntegralType *>(result.get())->integral,      \
               Vypr::Integral::Bool);                                           \
-    ASSERT_FALSE(result->isConst);                                             \
+    ASSERT_FALSE(result->qualifiers.isConst);                                  \
     ASSERT_FALSE(result->isLValue);                                            \
   }
 
@@ -416,7 +416,7 @@ namespace PointerTypeTest
     ASSERT_EQ(result->GetType(), Vypr::StorageMetaType::Integral);             \
     ASSERT_EQ(dynamic_cast<Vypr::IntegralType *>(result.get())->integral,      \
               Vypr::Integral::Bool);                                           \
-    ASSERT_FALSE(result->isConst);                                             \
+    ASSERT_FALSE(result->qualifiers.isConst);                                  \
     ASSERT_FALSE(result->isLValue);                                            \
   }
 

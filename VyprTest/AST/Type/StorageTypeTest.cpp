@@ -10,7 +10,7 @@ namespace StorageTypeTest
         std::make_unique<Vypr::StorageType>();
 
     ASSERT_EQ(voidType->GetType(), Vypr::StorageMetaType::Void);
-    ASSERT_FALSE(voidType->isConst);
+    ASSERT_FALSE(voidType->qualifiers.isConst);
     ASSERT_FALSE(voidType->isLValue);
   }
 
@@ -23,7 +23,7 @@ namespace StorageTypeTest
 
     ASSERT_NE(voidType, otherType);
     ASSERT_EQ(voidType->GetType(), otherType->GetType());
-    ASSERT_EQ(voidType->isConst, otherType->isConst);
+    ASSERT_EQ(voidType->qualifiers.isConst, otherType->qualifiers.isConst);
     ASSERT_EQ(voidType->isLValue, otherType->isLValue);
   }
 } // namespace StorageTypeTest

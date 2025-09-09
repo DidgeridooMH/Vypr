@@ -7,15 +7,16 @@ namespace Vypr
 {
   ArrayType::ArrayType(std::unique_ptr<StorageType> &storage, size_t size,
                        int isLValue)
-      : StorageType(StorageMetaType::Array, true, isLValue),
+      : StorageType(StorageMetaType::Array, TypeQualifiers(), isLValue),
         m_storage(std::move(storage)), m_size(size)
   {
+    qualifiers.isConst = true;
   }
 
   std::unique_ptr<StorageType> ArrayType::Clone() const
   {
     std::unique_ptr<StorageType> storageClone = m_storage->Clone();
-    return std::make_unique<PointerType>(storageClone, false, false);
+    return std::make_unique<PointerType>(storageClone, TypeQualifiers(), false);
   }
 
   std::unique_ptr<StorageType> ArrayType::Check(PostfixOp op) const
@@ -70,8 +71,8 @@ namespace Vypr
       [[fallthrough]];
     case BinaryOp::LogicalAnd:
     case BinaryOp::LogicalOr:
-      resultType =
-          std::make_unique<IntegralType>(Integral::Bool, false, false, false);
+      resultType = std::make_unique<IntegralType>(Integral::Bool, false,
+                                                  TypeQualifiers(), false);
       break;
     default:
       break;
@@ -94,8 +95,8 @@ namespace Vypr
     case StorageMetaType::Array:
       if (op == BinaryOp::Subtract)
       {
-        resultType =
-            std::make_unique<IntegralType>(Integral::Long, false, false, false);
+        resultType = std::make_unique<IntegralType>(Integral::Long, false,
+                                                    TypeQualifiers(), false);
       }
       break;
     default:

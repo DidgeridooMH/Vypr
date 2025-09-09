@@ -228,12 +228,14 @@ namespace Vypr
       {
         if (isDouble)
         {
-          constantType = std::make_unique<RealType>(Real::Double, false, false);
+          constantType =
+              std::make_unique<RealType>(Real::Double, TypeQualifiers(), false);
           value = std::stod(constant);
         }
         else
         {
-          constantType = std::make_unique<RealType>(Real::Float, false, false);
+          constantType =
+              std::make_unique<RealType>(Real::Float, TypeQualifiers(), false);
           value = std::stof(constant);
         }
         valueParsed = true;
@@ -266,8 +268,8 @@ namespace Vypr
       stringLiteral += converter.to_bytes(nextLiteral.content);
     }
 
-    std::unique_ptr<StorageType> storageType =
-        std::make_unique<IntegralType>(Integral::Byte, false, true, false);
+    std::unique_ptr<StorageType> storageType = std::make_unique<IntegralType>(
+        Integral::Byte, false, TypeQualifiers(true), false);
     std::unique_ptr<StorageType> pointerType =
         std::make_unique<PointerType>(storageType, false, false);
     return std::make_unique<ConstantNode>(std::move(pointerType), stringLiteral,

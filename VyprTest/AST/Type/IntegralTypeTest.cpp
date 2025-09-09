@@ -11,7 +11,7 @@ namespace IntegralTypeTest
                                              false);
 
     ASSERT_EQ(type->integral, Vypr::Integral::Bool);
-    ASSERT_EQ(type->isConst, false);
+    ASSERT_EQ(type->qualifiers.isConst, false);
     ASSERT_EQ(type->isLValue, false);
   }
 
@@ -22,7 +22,7 @@ namespace IntegralTypeTest
                                              false);
 
     ASSERT_EQ(type->integral, Vypr::Integral::Bool);
-    ASSERT_EQ(type->isConst, true);
+    ASSERT_EQ(type->qualifiers.isConst, true);
     ASSERT_EQ(type->isLValue, false);
   }
 
@@ -33,7 +33,7 @@ namespace IntegralTypeTest
                                              true);
 
     ASSERT_EQ(type->integral, Vypr::Integral::Bool);
-    ASSERT_EQ(type->isConst, false);
+    ASSERT_EQ(type->qualifiers.isConst, false);
     ASSERT_EQ(type->isLValue, true);
   }
 
@@ -44,7 +44,7 @@ namespace IntegralTypeTest
                                              true);
 
     ASSERT_EQ(type->integral, Vypr::Integral::Bool);
-    ASSERT_EQ(type->isConst, false);
+    ASSERT_EQ(type->qualifiers.isConst, false);
     ASSERT_EQ(type->isLValue, true);
   }
 
@@ -55,7 +55,7 @@ namespace IntegralTypeTest
                                              true);
 
     ASSERT_EQ(type->integral, Vypr::Integral::Long);
-    ASSERT_EQ(type->isConst, false);
+    ASSERT_EQ(type->qualifiers.isConst, false);
     ASSERT_EQ(type->isLValue, true);
   }
 
@@ -70,7 +70,7 @@ namespace IntegralTypeTest
     ASSERT_NE(type.get(), other.get());
     ASSERT_EQ(dynamic_cast<Vypr::IntegralType *>(type.get())->integral,
               dynamic_cast<Vypr::IntegralType *>(other.get())->integral);
-    ASSERT_EQ(type->isConst, other->isConst);
+    ASSERT_EQ(type->qualifiers.isConst, other->qualifiers.isConst);
     ASSERT_FALSE(other->isLValue);
   }
 
@@ -103,7 +103,7 @@ namespace IntegralTypeTest
         dynamic_cast<Vypr::IntegralType *>(result.get());
 
     ASSERT_EQ(resultIntegral->integral, Vypr::Integral::Long);
-    ASSERT_FALSE(resultIntegral->isConst);
+    ASSERT_FALSE(resultIntegral->qualifiers.isConst);
     ASSERT_FALSE(resultIntegral->isLValue);
     ASSERT_FALSE(resultIntegral->isUnsigned);
   }
@@ -123,7 +123,7 @@ namespace IntegralTypeTest
         dynamic_cast<Vypr::IntegralType *>(result.get());
 
     ASSERT_EQ(resultIntegral->integral, Vypr::Integral::Long);
-    ASSERT_FALSE(resultIntegral->isConst);
+    ASSERT_FALSE(resultIntegral->qualifiers.isConst);
     ASSERT_FALSE(resultIntegral->isLValue);
     ASSERT_FALSE(resultIntegral->isUnsigned);
   }
@@ -143,7 +143,7 @@ namespace IntegralTypeTest
         dynamic_cast<Vypr::IntegralType *>(result.get());
 
     ASSERT_EQ(resultIntegral->integral, Vypr::Integral::Int);
-    ASSERT_FALSE(resultIntegral->isConst);
+    ASSERT_FALSE(resultIntegral->qualifiers.isConst);
     ASSERT_FALSE(resultIntegral->isLValue);
     ASSERT_FALSE(resultIntegral->isUnsigned);
   }
@@ -163,7 +163,7 @@ namespace IntegralTypeTest
         dynamic_cast<Vypr::IntegralType *>(result.get());
 
     ASSERT_EQ(resultIntegral->integral, Vypr::Integral::Long);
-    ASSERT_FALSE(resultIntegral->isConst);
+    ASSERT_FALSE(resultIntegral->qualifiers.isConst);
     ASSERT_FALSE(resultIntegral->isLValue);
     ASSERT_TRUE(resultIntegral->isUnsigned);
   }
@@ -183,7 +183,7 @@ namespace IntegralTypeTest
         dynamic_cast<Vypr::IntegralType *>(result.get());
 
     ASSERT_EQ(resultIntegral->integral, Vypr::Integral::Long);
-    ASSERT_FALSE(resultIntegral->isConst);
+    ASSERT_FALSE(resultIntegral->qualifiers.isConst);
     ASSERT_FALSE(resultIntegral->isLValue);
     ASSERT_TRUE(resultIntegral->isUnsigned);
   }

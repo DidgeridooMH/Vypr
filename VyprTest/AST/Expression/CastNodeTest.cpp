@@ -46,7 +46,7 @@ namespace CastNodeTest
 
     auto integralType = dynamic_cast<Vypr::IntegralType *>(cast->type.get());
     ASSERT_EQ(integralType->integral, Vypr::Integral::Byte);
-    ASSERT_FALSE(integralType->isConst);
+    ASSERT_FALSE(integralType->qualifiers.isConst);
     ASSERT_FALSE(integralType->isLValue);
     ASSERT_EQ(integralType->isUnsigned, false);
   }

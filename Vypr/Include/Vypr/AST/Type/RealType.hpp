@@ -15,7 +15,7 @@ namespace Vypr
   class RealType : public StorageType
   {
   public:
-    RealType(Real real, bool isConst, bool isLValue);
+    RealType(Real real, TypeQualifiers qualifiers, bool isLValue);
 
     std::unique_ptr<StorageType> Clone() const override;
 

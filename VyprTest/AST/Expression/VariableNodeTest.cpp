@@ -32,8 +32,9 @@ namespace VariableNodeTest
   {
     Vypr::CLangLexer lexer(std::make_unique<Vypr::StringScanner>(L"alpha"));
     Vypr::ASTContext astContext;
-    astContext.typeTable.AddSymbol(L"alpha", std::make_shared<Vypr::IntegralType>(
-                                      Vypr::Integral::Int, false, false, true));
+    astContext.typeTable.AddSymbol(
+        L"alpha", std::make_shared<Vypr::IntegralType>(Vypr::Integral::Int,
+                                                       false, false, true));
 
     std::unique_ptr<Vypr::VariableNode> variable =
         Vypr::VariableNode::Parse(lexer, astContext);
@@ -45,15 +46,16 @@ namespace VariableNodeTest
         dynamic_cast<Vypr::IntegralType *>(variable->type.get())->integral,
         Vypr::Integral::Int);
     ASSERT_EQ(variable->type->isLValue, true);
-    ASSERT_EQ(variable->type->isConst, false);
+    ASSERT_EQ(variable->type->qualifiers.isConst, false);
   }
 
   TEST(Parse, RealVariable)
   {
     Vypr::CLangLexer lexer(std::make_unique<Vypr::StringScanner>(L"alpha"));
     Vypr::ASTContext astContext;
-    astContext.typeTable.AddSymbol(L"alpha", std::make_shared<Vypr::RealType>(
-                                      Vypr::Real::Float, false, true));
+    astContext.typeTable.AddSymbol(
+        L"alpha",
+        std::make_shared<Vypr::RealType>(Vypr::Real::Float, false, true));
 
     std::unique_ptr<Vypr::VariableNode> variable =
         Vypr::VariableNode::Parse(lexer, astContext);
@@ -64,7 +66,7 @@ namespace VariableNodeTest
     ASSERT_EQ(dynamic_cast<Vypr::RealType *>(variable->type.get())->real,
               Vypr::Real::Float);
     ASSERT_EQ(variable->type->isLValue, true);
-    ASSERT_EQ(variable->type->isConst, false);
+    ASSERT_EQ(variable->type->qualifiers.isConst, false);
   }
 
   TEST(Parse, PointerVariable)
@@ -84,17 +86,17 @@ namespace VariableNodeTest
     ASSERT_EQ(variable->line, 1);
     ASSERT_EQ(variable->type->GetType(), Vypr::StorageMetaType::Pointer);
     ASSERT_EQ(variable->type->isLValue, true);
-    ASSERT_EQ(variable->type->isConst, false);
+    ASSERT_EQ(variable->type->qualifiers.isConst, false);
   }
 
 #define GENCODE_INT_TEST(typeName, bitWidth, testValue)                        \
   TEST(GenerateCode, typeName##Variable)                                       \
   {                                                                            \
     Vypr::CLangLexer lexer(std::make_unique<Vypr::StringScanner>(L"beta"));    \
-    Vypr::ASTContext astContext;                                                \
-    astContext.typeTable.AddSymbol(L"beta",                                               \
-                        std::make_shared<Vypr::IntegralType>(                  \
-                            Vypr::Integral::typeName, false, false, true));    \
+    Vypr::ASTContext astContext;                                               \
+    astContext.typeTable.AddSymbol(                                            \
+        L"beta", std::make_shared<Vypr::IntegralType>(                         \
+                     Vypr::Integral::typeName, false, false, true));           \
     Vypr::Context context("module");                                           \
                                                                                \
     llvm::Function *function = llvm::Function::Create(                         \
@@ -110,7 +112,7 @@ namespace VariableNodeTest
                                 context.symbolTable.GetSymbol(L"beta"));       \
                                                                                \
     std::unique_ptr<Vypr::VariableNode> variable =                             \
-        Vypr::VariableNode::Parse(lexer, astContext);                           \
+        Vypr::VariableNode::Parse(lexer, astContext);                          \
                                                                                \
     llvm::Value *variableValue = variable->GenerateCode(context);              \
                                                                                \
@@ -127,8 +129,9 @@ namespace VariableNodeTest
   {
     Vypr::CLangLexer lexer(std::make_unique<Vypr::StringScanner>(L"beta"));
     Vypr::ASTContext astContext;
-    astContext.typeTable.AddSymbol(L"beta", std::make_shared<Vypr::RealType>(
-                                     Vypr::Real::Float, false, true));
+    astContext.typeTable.AddSymbol(
+        L"beta",
+        std::make_shared<Vypr::RealType>(Vypr::Real::Float, false, true));
     Vypr::Context context("module");
 
     llvm::Function *function = llvm::Function::Create(
@@ -156,8 +159,9 @@ namespace VariableNodeTest
   {
     Vypr::CLangLexer lexer(std::make_unique<Vypr::StringScanner>(L"beta"));
     Vypr::ASTContext astContext;
-    astContext.typeTable.AddSymbol(L"beta", std::make_shared<Vypr::RealType>(
-                                     Vypr::Real::Double, false, true));
+    astContext.typeTable.AddSymbol(
+        L"beta",
+        std::make_shared<Vypr::RealType>(Vypr::Real::Double, false, true));
     Vypr::Context context("module");
 
     llvm::Function *function = llvm::Function::Create(

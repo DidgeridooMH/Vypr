@@ -31,9 +31,9 @@ namespace Vypr
     ///
     /// @param integral Size of the integer.
     /// @param isUnsigned True if unsigned, false otherwise
-    /// @param isConst True if constant, false otherwise
+    /// @param qualifiers Type qualifiers for the integral type.
     /// @param isLValue True if L-Value, false otherwise
-    IntegralType(Integral integral, bool isUnsigned, bool isConst,
+    IntegralType(Integral integral, bool isUnsigned, TypeQualifiers qualifiers,
                  bool isLValue);
 
     /// @brief Creates a copy of the integer type.

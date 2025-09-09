@@ -4,18 +4,19 @@
 
 namespace Vypr
 {
-  StorageType::StorageType() : StorageType(StorageMetaType::Void, false, false)
+  StorageType::StorageType() : StorageType(StorageMetaType::Void, {}, false)
   {
   }
 
-  StorageType::StorageType(StorageMetaType type, bool isConst, bool isLValue)
-      : m_type(type), isConst(isConst), isLValue(isLValue)
+  StorageType::StorageType(StorageMetaType type, TypeQualifiers qualifiers,
+                           bool isLValue)
+      : m_type(type), qualifiers(qualifiers), isLValue(isLValue)
   {
   }
 
   std::unique_ptr<StorageType> StorageType::Clone() const
   {
-    return std::make_unique<StorageType>(m_type, isConst, isLValue);
+    return std::make_unique<StorageType>(m_type, qualifiers, isLValue);
   };
 
   std::unique_ptr<StorageType> StorageType::Check(PostfixOp op) const
@@ -42,14 +43,46 @@ namespace Vypr
       result += L"(L) ";
     }
 
-    if (isConst)
+    if (qualifiers.isConst)
     {
       result += L"const ";
     }
 
-    if (m_type == StorageMetaType::Void)
+    if (qualifiers.isVolatile)
     {
+      result += L"volatile ";
+    }
+
+    if (qualifiers.isRestrict)
+    {
+      result += L"restrict ";
+    }
+
+    if (qualifiers.isRegister)
+    {
+      result += L"register ";
+    }
+
+    switch (m_type)
+    {
+    case StorageMetaType::Integral:
+      result += L"Integral";
+      break;
+    case StorageMetaType::Real:
+      result += L"Real";
+      break;
+    case StorageMetaType::Pointer:
+      result += L"Pointer";
+      break;
+    case StorageMetaType::Array:
+      result += L"Array";
+      break;
+    case StorageMetaType::Void:
       result += L"Void";
+      break;
+    default:
+      result += L"Unknown";
+      break;
     }
 
     return result;
@@ -67,5 +100,15 @@ namespace Vypr
   StorageMetaType StorageType::GetType() const
   {
     return m_type;
+  }
+
+  std::unique_ptr<StorageType> StorageType::Parse(CLangLexer &lexer)
+  {
+    TypeQualifiers qualifiers;
+    std::unique_ptr<StorageType> underlyingType = nullptr;
+
+    while (true)
+    {
+    }
   }
 } // namespace Vypr

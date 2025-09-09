@@ -14,10 +14,10 @@ namespace Vypr
     /// @brief Constructs a type that points to another type.
     ///
     /// @param storage Type pointed to by this pointer type.
-    /// @param isConst True if constant, false otherwise.
+    /// @param qualifiers Type qualifiers for the pointer type.
     /// @param isLValue True if L-Value, false otherwise.
-    PointerType(std::unique_ptr<StorageType> &storage, bool isConst,
-                bool isLValue);
+    PointerType(std::unique_ptr<StorageType> &storage,
+                TypeQualifiers qualifiers, bool isLValue);
 
     /// @brief Creates a copy of the pointer type.
     /// @return A deep copy of the pointer type with `isLValue` flag not set.

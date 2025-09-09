@@ -189,7 +189,7 @@ namespace Vypr
     {
       std::unique_ptr<StorageType> voidType = std::make_unique<StorageType>();
       m_rhs = std::make_unique<CastNode>(
-          std::make_unique<PointerType>(voidType, false, false),
+          std::make_unique<PointerType>(voidType, TypeQualifiers(), false),
           std::move(m_rhs));
     }
   }
@@ -247,7 +247,8 @@ namespace Vypr
             Integral::Bool)
     {
       m_rhs = std::make_unique<CastNode>(
-          std::make_unique<IntegralType>(Integral::Bool, false, false, false),
+          std::make_unique<IntegralType>(Integral::Bool, false,
+                                         TypeQualifiers(), false),
           std::move(m_rhs));
     }
   }

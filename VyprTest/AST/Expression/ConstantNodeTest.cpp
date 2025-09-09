@@ -33,7 +33,7 @@ namespace ConstantNodeTest
     auto integralType =                                                        \
         dynamic_cast<Vypr::IntegralType *>(constant->type.get());              \
     ASSERT_EQ(integralType->integral, Vypr::Integral::integralType);           \
-    ASSERT_FALSE(integralType->isConst);                                       \
+    ASSERT_FALSE(integralType->qualifiers.isConst);                            \
     ASSERT_FALSE(integralType->isLValue);                                      \
     ASSERT_EQ(integralType->isUnsigned, sign);                                 \
   }
@@ -76,7 +76,7 @@ namespace ConstantNodeTest
                                                                                \
     auto realType = dynamic_cast<Vypr::RealType *>(constant->type.get());      \
     ASSERT_EQ(realType->real, Vypr::Real::realType);                           \
-    ASSERT_FALSE(realType->isConst);                                           \
+    ASSERT_FALSE(realType->qualifiers.isConst);                                \
     ASSERT_FALSE(realType->isLValue);                                          \
   }
 
@@ -103,7 +103,7 @@ namespace ConstantNodeTest
                                                                                \
     auto realType = dynamic_cast<Vypr::RealType *>(constant->type.get());      \
     ASSERT_EQ(realType->real, Vypr::Real::realType);                           \
-    ASSERT_FALSE(realType->isConst);                                           \
+    ASSERT_FALSE(realType->qualifiers.isConst);                                \
     ASSERT_FALSE(realType->isLValue);                                          \
   }
 
@@ -124,7 +124,7 @@ namespace ConstantNodeTest
     auto integralType =                                                        \
         dynamic_cast<Vypr::IntegralType *>(constant->type.get());              \
     ASSERT_EQ(integralType->integral, Vypr::Integral::Byte);                   \
-    ASSERT_FALSE(integralType->isConst);                                       \
+    ASSERT_FALSE(integralType->qualifiers.isConst);                            \
     ASSERT_FALSE(integralType->isLValue);                                      \
     ASSERT_FALSE(integralType->isUnsigned);                                    \
   }
@@ -149,7 +149,7 @@ namespace ConstantNodeTest
                                                                                \
     auto pointerType =                                                         \
         dynamic_cast<Vypr::PointerType *>(constant->type.get());               \
-    ASSERT_FALSE(pointerType->isConst);                                        \
+    ASSERT_FALSE(pointerType->qualifiers.isConst);                             \
     ASSERT_FALSE(pointerType->isLValue);                                       \
   }
 

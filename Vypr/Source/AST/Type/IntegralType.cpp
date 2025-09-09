@@ -6,21 +6,22 @@
 
 namespace Vypr
 {
-  IntegralType::IntegralType(Integral integral, bool isUnsigned, bool isConst,
-                             bool isLValue)
-      : StorageType(StorageMetaType::Integral, isConst, isLValue),
+  IntegralType::IntegralType(Integral integral, bool isUnsigned,
+                             TypeQualifiers qualifiers, bool isLValue)
+      : StorageType(StorageMetaType::Integral, qualifiers, isLValue),
         integral(integral), isUnsigned(isUnsigned)
   {
   }
 
   std::unique_ptr<StorageType> IntegralType::Clone() const
   {
-    return std::make_unique<IntegralType>(integral, isUnsigned, false, false);
+    return std::make_unique<IntegralType>(integral, isUnsigned,
+                                          TypeQualifiers(), false);
   }
 
   std::unique_ptr<StorageType> IntegralType::Check(PostfixOp op) const
   {
-    return (isLValue && !isConst) ? Clone() : nullptr;
+    return (isLValue && !qualifiers.isConst) ? Clone() : nullptr;
   }
 
   std::unique_ptr<StorageType> IntegralType::Check(UnaryOp op) const
@@ -49,8 +50,8 @@ namespace Vypr
       }
       break;
     case UnaryOp::LogicalNot:
-      resultType =
-          std::make_unique<IntegralType>(Integral::Bool, false, false, false);
+      resultType = std::make_unique<IntegralType>(Integral::Bool, false,
+                                                  TypeQualifiers(), false);
       break;
     case UnaryOp::Deref:
       break;
@@ -62,8 +63,8 @@ namespace Vypr
       }
       break;
     case UnaryOp::Sizeof:
-      resultType =
-          std::make_unique<IntegralType>(Integral::Long, true, false, false);
+      resultType = std::make_unique<IntegralType>(Integral::Long, true,
+                                                  TypeQualifiers(), false);
       break;
     }
 
@@ -99,15 +100,15 @@ namespace Vypr
     case BinaryOp::NotEqual:
     case BinaryOp::LogicalAnd:
     case BinaryOp::LogicalOr:
-      resultType =
-          std::make_unique<IntegralType>(Integral::Bool, false, false, false);
+      resultType = std::make_unique<IntegralType>(Integral::Bool, false,
+                                                  TypeQualifiers(), false);
       break;
     }
 
     if (resultType != nullptr)
     {
       resultType->isLValue = false;
-      resultType->isConst = false;
+      resultType->qualifiers.isConst = false;
     }
 
     return resultType;
